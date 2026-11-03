@@ -153,7 +153,7 @@ flock /tmp/nukeapp-gradle.lock ./gradlew verifyRelease --max-workers=1 --console
 
 ## 11 Where to start reading
 
-- `README.md`: building the module and patcher APKs, the three Hook modes, patching, verification status and the code layout.
+- `README.md`: the user-facing guide (what the module does, installing it through the three Hook modes, patching, troubleshooting, known limits, licenses). It carries no build steps or code layout: the pinned toolchain and the build and verify commands are in `.github/workflows/ci.yml` and section 9 of this file, and the layout is the directory structure and section 5.
 - `apps/module/src/main/cpp/README.md`: the Zygisk bootstrap, the JNI contract, pinned native dependencies and the APK / ZIP installer.
 - `sdk/script-sdk/README.md`: writing, checking and packaging scripts.
 - `gradle/libs.versions.toml`, each module's build files and the source code: the authority for actual dependencies and behavior.

@@ -48,7 +48,7 @@ def environment(source):
     else:
         candidate = Path(shutil.which("cargo") or "/missing-cargo")
     if not candidate.is_file():
-        raise SystemExit("Install rustup with Rust 1.90.0, rustfmt, clippy and the two Android targets; see README.md")
+        raise SystemExit("Install rustup with Rust 1.90.0, rustfmt, clippy and the two Android targets; see .github/workflows/ci.yml")
     # rustup selects the version in the crate's rust-toolchain.toml.
     actual = subprocess.check_output([str(candidate), "--version"], env=env, cwd=source, text=True)
     if not actual.startswith("cargo 1.90.0 "):
