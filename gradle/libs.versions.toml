@@ -16,6 +16,7 @@ hiddenapibypass = "6.2"
 silkCodec = "1.0.6"
 dexmaker = "2.28.6"
 haze = "2.0.1"
+phosphorIcon = "1.0.0"
 kavaref = "1.1.1"
 quickjsKt = "1.0.15"
 markdownRenderer = "0.45.0"
@@ -38,6 +39,7 @@ compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-
 compose-material3 = { module = "androidx.compose.material3:material3" }
 haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 haze-blur = { module = "dev.chrisbanes.haze:haze-blur", version.ref = "haze" }
+phosphor-icon = { module = "com.adamglin:phosphor-icon", version.ref = "phosphorIcon" }
 quickjs-kt = { module = "io.github.dokar3:quickjs-kt", version.ref = "quickjsKt" }
 markdown-renderer-m3 = { module = "com.mikepenz:multiplatform-markdown-renderer-m3", version.ref = "markdownRenderer" }
 markdown-renderer-code = { module = "com.mikepenz:multiplatform-markdown-renderer-code", version.ref = "markdownRenderer" }

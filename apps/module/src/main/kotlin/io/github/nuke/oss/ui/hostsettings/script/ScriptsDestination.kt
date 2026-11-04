@@ -42,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -52,9 +53,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.regular.BookOpenText
+import com.adamglin.phosphoricons.regular.FileArrowUp
+import com.adamglin.phosphoricons.regular.PuzzlePiece
+import com.adamglin.phosphoricons.regular.Storefront
+import com.adamglin.phosphoricons.regular.Warning
 import io.github.nuke.oss.R
-import io.github.nuke.oss.designsystem.Glyph
-import io.github.nuke.oss.designsystem.GlyphIcon
+import io.github.nuke.oss.designsystem.NukeIcon
 import io.github.nuke.oss.designsystem.NukeEmptyState
 import io.github.nuke.oss.designsystem.NukeScreenSurface
 import io.github.nuke.oss.designsystem.NukeSegmentedControl
@@ -94,9 +101,9 @@ internal fun ScriptsDestination(
                 onBackClickAt = onBack,
                 actions = {
                     if (tab == ScriptsTab.INSTALLED && model.available) {
-                        ToolbarButton(Glyph.Upload, stringResource(R.string.script_import_action)) { importRequest++ }
+                        ToolbarButton(PhosphorIcons.Regular.FileArrowUp, stringResource(R.string.script_import_action)) { importRequest++ }
                     }
-                    ToolbarButton(Glyph.Book, stringResource(R.string.script_docs_action)) { openInBrowser(context, SCRIPT_DOCS_URL) }
+                    ToolbarButton(PhosphorIcons.Regular.BookOpenText, stringResource(R.string.script_docs_action)) { openInBrowser(context, SCRIPT_DOCS_URL) }
                 },
             )
             Box(Modifier.fillMaxSize()) {
@@ -118,7 +125,7 @@ internal fun ScriptsDestination(
 
                         ScriptsTab.STORE -> {
                             ScriptEmptyState(
-                                Glyph.Store,
+                                PhosphorIcons.Regular.Storefront,
                                 stringResource(R.string.script_store_empty_title),
                                 stringResource(R.string.script_store_empty_message),
                                 Modifier.fillMaxSize().padding(padding),
@@ -170,7 +177,7 @@ private fun InstalledScripts(
     when {
         !model.available -> {
             ScriptEmptyState(
-                Glyph.Warning,
+                PhosphorIcons.Regular.Warning,
                 stringResource(R.string.script_unavailable_title),
                 stringResource(R.string.script_unavailable_message),
                 modifier.padding(padding),
@@ -187,7 +194,7 @@ private fun InstalledScripts(
 
         scripts.isEmpty() -> {
             ScriptEmptyState(
-                Glyph.Puzzle,
+                PhosphorIcons.Regular.PuzzlePiece,
                 stringResource(R.string.script_none_title),
                 stringResource(R.string.script_none_message),
                 modifier.padding(padding),
@@ -248,7 +255,7 @@ private fun InstalledScripts(
 
 @Composable
 private fun ToolbarButton(
-    glyph: Glyph,
+    icon: ImageVector,
     description: String,
     onClick: () -> Unit,
 ) {
@@ -260,13 +267,13 @@ private fun ToolbarButton(
                 .nukeClick(role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        GlyphIcon(glyph, null, iconSize = 21.dp)
+        NukeIcon(icon, null, iconSize = 21.dp)
     }
 }
 
 @Composable
 internal fun ScriptEmptyState(
-    glyph: Glyph,
+    icon: ImageVector,
     title: String,
     message: String,
     modifier: Modifier = Modifier,
@@ -282,7 +289,7 @@ internal fun ScriptEmptyState(
             contentAlignment = Alignment.Center,
         ) {
             androidx.compose.runtime.CompositionLocalProvider(androidx.compose.material3.LocalContentColor provides colors.accent) {
-                GlyphIcon(glyph, null, iconSize = 42.dp)
+                NukeIcon(icon, null, iconSize = 42.dp)
             }
         }
     }

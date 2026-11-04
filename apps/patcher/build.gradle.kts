@@ -135,6 +135,7 @@ dependencies {
     implementation(files(rootProject.file("build/lspatch/lspatch-engine.jar")).builtBy(prepareLspatch))
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.material3)
+    implementation(libs.phosphor.icon)
     implementation(libs.activity.compose)
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.runtime.compose)

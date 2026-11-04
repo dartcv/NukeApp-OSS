@@ -35,6 +35,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.regular.ArrowClockwise
+import com.adamglin.phosphoricons.regular.Bug
+import com.adamglin.phosphoricons.regular.Check
+import com.adamglin.phosphoricons.regular.MagnifyingGlass
+import com.adamglin.phosphoricons.regular.Trash
 import io.github.nuke.oss.BuildConfig
 import io.github.nuke.oss.R
 import io.github.nuke.oss.app.shared.diagnostics.FailurePhases
@@ -43,8 +50,7 @@ import io.github.nuke.oss.app.shared.settings.ConfigImportRejected
 import io.github.nuke.oss.app.shared.settings.FeatureDisplay
 import io.github.nuke.oss.app.shared.settings.HostFeature
 import io.github.nuke.oss.app.shared.settings.display
-import io.github.nuke.oss.designsystem.Glyph
-import io.github.nuke.oss.designsystem.GlyphIcon
+import io.github.nuke.oss.designsystem.NukeIcon
 import io.github.nuke.oss.designsystem.NukeDialog
 import io.github.nuke.oss.designsystem.NukeDialogAccentButton
 import io.github.nuke.oss.designsystem.NukeDialogTextButton
@@ -187,7 +193,7 @@ internal fun ModuleDebugPage(
                 placeholder = stringResource(R.string.host_debug_search),
                 leadingIcon = {
                     CompositionLocalProvider(LocalContentColor provides NukeTheme.colors.textSecondary) {
-                        GlyphIcon(Glyph.Search, null, iconSize = 18.dp)
+                        NukeIcon(PhosphorIcons.Regular.MagnifyingGlass, null, iconSize = 18.dp)
                     }
                 },
             )
@@ -198,19 +204,19 @@ internal fun ModuleDebugPage(
                     NukeSettingRow(
                         title = stringResource(R.string.host_debug_restart),
                         subtitle = stringResource(R.string.host_debug_restart_description),
-                        leadingIcon = { NukeIconBadge(Glyph.Restart) },
+                        leadingIcon = { NukeIconBadge(PhosphorIcons.Regular.ArrowClockwise) },
                         onClick = onRestartHost,
                     )
                     NukeSettingRow(
                         title = stringResource(R.string.host_debug_failures_export),
                         subtitle = stringResource(R.string.host_debug_failures_export_description),
-                        leadingIcon = { NukeIconBadge(Glyph.Bug) },
+                        leadingIcon = { NukeIconBadge(PhosphorIcons.Regular.Bug) },
                         onClick = onExportFailures,
                     )
                     NukeSettingRow(
                         title = stringResource(R.string.host_debug_clean),
                         subtitle = stringResource(R.string.host_debug_clean_description),
-                        leadingIcon = { NukeIconBadge(Glyph.Trash, color = NukeTheme.colors.danger) },
+                        leadingIcon = { NukeIconBadge(PhosphorIcons.Regular.Trash, color = NukeTheme.colors.danger) },
                         onClick = { confirmClean = true },
                     )
                     BugReportsRow(state.bugReports == true, onBugReports)
@@ -313,7 +319,7 @@ internal fun DebugStatusMark(status: DebugStatus) {
     ) {
         when (status) {
             DebugStatus.NORMAL -> CompositionLocalProvider(LocalContentColor provides color) {
-                GlyphIcon(Glyph.Check, null, iconSize = 18.dp)
+                NukeIcon(PhosphorIcons.Regular.Check, null, iconSize = 18.dp)
             }
             DebugStatus.UNAVAILABLE -> MarkText("-", color)
             DebugStatus.LOCKED -> MarkText("!", color)

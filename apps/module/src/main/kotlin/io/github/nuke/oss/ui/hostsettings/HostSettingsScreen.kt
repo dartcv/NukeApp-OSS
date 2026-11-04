@@ -36,6 +36,14 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.toggleableState
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.regular.Bug
+import com.adamglin.phosphoricons.regular.Code
+import com.adamglin.phosphoricons.regular.Info
+import com.adamglin.phosphoricons.regular.Palette
+import com.adamglin.phosphoricons.regular.ShareNetwork
+import com.adamglin.phosphoricons.regular.ShieldCheck
 import io.github.nuke.oss.R
 import io.github.nuke.oss.BuildConfig
 import io.github.nuke.oss.app.shared.settings.ActivityRecord
@@ -46,7 +54,6 @@ import io.github.nuke.oss.app.shared.settings.ProtocolConsole
 import io.github.nuke.oss.app.shared.settings.HostContactList
 import io.github.nuke.oss.app.shared.settings.HostFeature
 import io.github.nuke.oss.app.shared.settings.UiConfig
-import io.github.nuke.oss.designsystem.Glyph
 import io.github.nuke.oss.designsystem.NukeDivider
 import io.github.nuke.oss.designsystem.NukeEmptyState
 import io.github.nuke.oss.designsystem.NukeIconBadge
@@ -258,18 +265,18 @@ private fun Home(
     val sections = CategorySection.entries.mapNotNull { section ->
         val tiles = FeatureCategory.entries.filter { it.section == section }.mapNotNull { category ->
             val count = state.features.count { categoryOf(it.id) == category }
-            if (count == 0) null else HomeTile(stringResource(category.title), category.glyph, category.key, count.toString())
+            if (count == 0) null else HomeTile(stringResource(category.title), category.icon, category.key, count.toString())
         }
         if (tiles.isEmpty()) null else Triple(section.name, stringResource(section.title), tiles)
     }
     // Like NukeApp's module debug entry: the number of locked features as a warning, otherwise how many there are.
     val locked = state.features.count(state::isLocked)
-    val debugTile = HomeTile(stringResource(R.string.host_debug_title), Glyph.Bug, DEBUG,
+    val debugTile = HomeTile(stringResource(R.string.host_debug_title), PhosphorIcons.Regular.Bug, DEBUG,
         if (locked > 0) "!$locked" else state.features.size.toString(), warning = locked > 0)
-    val appearanceTile = HomeTile(stringResource(R.string.home_appearance), Glyph.Palette, APPEARANCE)
-    val aboutTile = HomeTile(stringResource(R.string.manager_about_title), Glyph.Info, ABOUT)
-    val configTile = HomeTile(stringResource(R.string.host_config_entry), Glyph.Share, CONFIG)
-    val scriptsTile = HomeTile(stringResource(R.string.script_home_entry), Glyph.Code, SCRIPTS)
+    val appearanceTile = HomeTile(stringResource(R.string.home_appearance), PhosphorIcons.Regular.Palette, APPEARANCE)
+    val aboutTile = HomeTile(stringResource(R.string.manager_about_title), PhosphorIcons.Regular.Info, ABOUT)
+    val configTile = HomeTile(stringResource(R.string.host_config_entry), PhosphorIcons.Regular.ShareNetwork, CONFIG)
+    val scriptsTile = HomeTile(stringResource(R.string.script_home_entry), PhosphorIcons.Regular.Code, SCRIPTS)
     val general = if (live) listOf(debugTile, scriptsTile, appearanceTile, configTile, aboutTile) else listOf(aboutTile)
     val appName = stringResource(R.string.manager_app_name)
     HomePage(
@@ -309,7 +316,7 @@ private fun Home(
                     NukeSettingRow(
                         title = stringResource(R.string.host_safe_mode),
                         subtitle = stringResource(R.string.host_safe_mode_description),
-                        leadingIcon = { NukeIconBadge(Glyph.Shield) },
+                        leadingIcon = { NukeIconBadge(PhosphorIcons.Regular.ShieldCheck) },
                         onClick = { if (state.safeMode) onSafeMode(false) else confirmSafeMode = true },
                         trailingContent = {
                             NukeSwitch(checked = state.safeMode, onCheckChanged = { on -> if (on) confirmSafeMode = true else onSafeMode(false) })

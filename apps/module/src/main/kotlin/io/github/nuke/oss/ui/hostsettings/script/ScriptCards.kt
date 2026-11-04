@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
@@ -34,10 +35,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.regular.FileText
+import com.adamglin.phosphoricons.regular.SlidersHorizontal
+import com.adamglin.phosphoricons.regular.Terminal
+import com.adamglin.phosphoricons.regular.Warning
 import io.github.nuke.oss.R
 import io.github.nuke.oss.app.shared.script.ScriptHold
-import io.github.nuke.oss.designsystem.Glyph
-import io.github.nuke.oss.designsystem.GlyphIcon
+import io.github.nuke.oss.designsystem.NukeIcon
 import io.github.nuke.oss.designsystem.NukeCardSurface
 import io.github.nuke.oss.designsystem.NukeSquircleShape
 import io.github.nuke.oss.designsystem.NukeSwitch
@@ -119,16 +125,16 @@ internal fun InstalledScriptCard(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(6.dp),
                     ) {
-                        CompositionLocalProvider(LocalContentColor provides tint) { GlyphIcon(Glyph.Warning, null, iconSize = 18.dp) }
+                        CompositionLocalProvider(LocalContentColor provides tint) { NukeIcon(PhosphorIcons.Regular.Warning, null, iconSize = 18.dp) }
                         Text(notice, color = tint, fontSize = 13.sp, lineHeight = 18.sp, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
                     }
                 } else {
                     Spacer(Modifier.weight(1f))
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    if (script.hasReadme) CardIconButton(Glyph.Document, stringResource(R.string.script_card_readme), onReadmeClick)
-                    CardIconButton(Glyph.Terminal, stringResource(R.string.script_card_logs), onLogsClick)
-                    CardIconButton(Glyph.Sliders, stringResource(R.string.script_card_settings), onSettingsClick)
+                    if (script.hasReadme) CardIconButton(PhosphorIcons.Regular.FileText, stringResource(R.string.script_card_readme), onReadmeClick)
+                    CardIconButton(PhosphorIcons.Regular.Terminal, stringResource(R.string.script_card_logs), onLogsClick)
+                    CardIconButton(PhosphorIcons.Regular.SlidersHorizontal, stringResource(R.string.script_card_settings), onSettingsClick)
                 }
             }
         }
@@ -136,7 +142,7 @@ internal fun InstalledScriptCard(
 }
 
 @Composable
-private fun CardIconButton(glyph: Glyph, description: String, onClick: () -> Unit, enabled: Boolean = true) {
+private fun CardIconButton(icon: ImageVector, description: String, onClick: () -> Unit, enabled: Boolean = true) {
     val colors = NukeTheme.colors
     val background: Color = lerp(colors.surface, colors.textSecondary, if (colors.isLight) 0.075f else 0.13f)
     Column(
@@ -154,7 +160,7 @@ private fun CardIconButton(glyph: Glyph, description: String, onClick: () -> Uni
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         CompositionLocalProvider(LocalContentColor provides if (enabled) colors.accent else colors.textSecondary) {
-            GlyphIcon(glyph, null, iconSize = 18.dp)
+            NukeIcon(icon, null, iconSize = 18.dp)
         }
     }
 }

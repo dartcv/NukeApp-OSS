@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.PredictiveBackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import io.github.nuke.oss.app.shared.settings.UiConfig
 import io.github.nuke.oss.designsystem.NukeContentSurfaceConfig
@@ -34,7 +35,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
-import io.github.nuke.oss.designsystem.Glyph
 import io.github.nuke.oss.designsystem.NukeCircularRevealHost
 import io.github.nuke.oss.designsystem.NukeDivider
 import io.github.nuke.oss.designsystem.NukeIconBadge
@@ -139,7 +139,7 @@ internal fun HomePage(
 // One tile of the home list: icon badge, title, an optional count, and the key of the page it opens.
 internal class HomeTile(
     val title: String,
-    val glyph: Glyph,
+    val icon: ImageVector,
     val key: String,
     val badge: String? = null,
     val warning: Boolean = false,
@@ -152,7 +152,7 @@ internal fun HomeTileGroup(title: String?, tiles: List<HomeTile>, onOpen: (Strin
             val color = if (tile.warning) NukeTheme.colors.danger else NukeTheme.colors.accent
             NukeNavRow(
                 title = tile.title,
-                leadingIcon = { NukeIconBadge(tile.glyph, color = color) },
+                leadingIcon = { NukeIconBadge(tile.icon, color = color) },
                 statusText = tile.badge,
                 statusColor = if (tile.warning) color else null,
                 onClickAt = { origin -> onOpen(tile.key, origin) },

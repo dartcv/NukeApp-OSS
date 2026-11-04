@@ -23,6 +23,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.BlurredEdgeTreatment
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.regular.CaretRight
 import dev.chrisbanes.haze.HazeInput
 import dev.chrisbanes.haze.blur.HazeBlurStyle
 import dev.chrisbanes.haze.blur.hazeBlur
@@ -110,7 +113,7 @@ fun NukeNavRow(
 fun NukeNavChevron(enabled: Boolean = true) {
     val alpha = if (enabled) 0.62f else 0.36f
     CompositionLocalProvider(LocalContentColor provides NukeTheme.colors.textSecondary.copy(alpha = alpha)) {
-        GlyphIcon(Glyph.ChevronRight, null, iconSize = 18.dp)
+        NukeIcon(PhosphorIcons.Regular.CaretRight, null, iconSize = 18.dp)
     }
 }
 
@@ -122,7 +125,7 @@ fun NukeDivider(startPadding: Dp = 14.dp) {
         .background(border.copy(alpha = border.alpha * NukeCardTheme.controlAlpha)))
 }
 
-// 48dp touch target around a 24dp glyph, for actions in a title bar.
+// 48dp touch target around a 24dp icon, for actions in a title bar.
 @Composable
 fun NukeBarButton(onClick: () -> Unit, content: @Composable () -> Unit) {
     Box(Modifier.size(48.dp).clip(CircleShape).nukeClick(role = Role.Button, onClick = onClick),

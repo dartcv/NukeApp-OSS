@@ -39,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
@@ -53,6 +54,18 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.regular.CaretRight
+import com.adamglin.phosphoricons.regular.CheckCircle
+import com.adamglin.phosphoricons.regular.Circle
+import com.adamglin.phosphoricons.regular.FileText
+import com.adamglin.phosphoricons.regular.Info
+import com.adamglin.phosphoricons.regular.ShieldCheck
+import com.adamglin.phosphoricons.regular.SlidersHorizontal
+import com.adamglin.phosphoricons.regular.Terminal
+import com.adamglin.phosphoricons.regular.Trash
+import com.adamglin.phosphoricons.regular.Warning
 import com.mikepenz.markdown.compose.LazyMarkdownSuccess
 import com.mikepenz.markdown.compose.components.MarkdownComponents
 import com.mikepenz.markdown.compose.components.markdownComponents
@@ -69,8 +82,7 @@ import io.github.nuke.oss.app.shared.script.ConfigField
 import io.github.nuke.oss.app.shared.script.ConfigProblem
 import io.github.nuke.oss.app.shared.script.ConfigType
 import io.github.nuke.oss.app.shared.script.ScriptLogEntry
-import io.github.nuke.oss.designsystem.Glyph
-import io.github.nuke.oss.designsystem.GlyphIcon
+import io.github.nuke.oss.designsystem.NukeIcon
 import io.github.nuke.oss.designsystem.NukeDialog
 import io.github.nuke.oss.designsystem.NukeDialogAccentButton
 import io.github.nuke.oss.designsystem.NukeDialogBodyText
@@ -127,7 +139,7 @@ private fun Metadata(text: String) {
 }
 
 @Composable
-private fun CenteredMessage(message: String, loading: Boolean = false, glyph: Glyph? = null) {
+private fun CenteredMessage(message: String, loading: Boolean = false, icon: ImageVector? = null) {
     Column(
         modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -135,8 +147,8 @@ private fun CenteredMessage(message: String, loading: Boolean = false, glyph: Gl
     ) {
         if (loading) {
             CircularProgressIndicator(Modifier.size(30.dp), color = NukeTheme.colors.accent, strokeWidth = 2.5.dp)
-        } else if (glyph != null) {
-            CompositionLocalProvider(LocalContentColor provides NukeTheme.colors.textSecondary) { GlyphIcon(glyph, null, iconSize = 32.dp) }
+        } else if (icon != null) {
+            CompositionLocalProvider(LocalContentColor provides NukeTheme.colors.textSecondary) { NukeIcon(icon, null, iconSize = 32.dp) }
         }
         Spacer(Modifier.height(12.dp))
         Text(message, color = NukeTheme.colors.textSecondary, fontSize = 13.sp, lineHeight = 19.sp, textAlign = TextAlign.Center)
@@ -177,7 +189,7 @@ internal fun ScriptReadmeDialog(model: ScriptsModel, script: ScriptItem?, onDism
         Box(Modifier.fillMaxWidth().weight(1f)) {
             when (val state = readme) {
                 Loaded.Loading -> CenteredMessage(stringResource(R.string.script_readme_loading), loading = true)
-                Loaded.Failed -> CenteredMessage(stringResource(R.string.script_readme_failed), glyph = Glyph.Warning)
+                Loaded.Failed -> CenteredMessage(stringResource(R.string.script_readme_failed), icon = PhosphorIcons.Regular.Warning)
                 is Loaded.Ready -> state.value?.let { content ->
                     Markdown(
                         content = content,
@@ -188,9 +200,9 @@ internal fun ScriptReadmeDialog(model: ScriptsModel, script: ScriptItem?, onDism
                         success = { markdown, resolved, successModifier ->
                             LazyMarkdownSuccess(markdown, resolved, successModifier.fillMaxSize(), contentPadding = PaddingValues(top = 2.dp, bottom = 8.dp))
                         },
-                        error = { CenteredMessage(stringResource(R.string.script_readme_failed), glyph = Glyph.Warning) },
+                        error = { CenteredMessage(stringResource(R.string.script_readme_failed), icon = PhosphorIcons.Regular.Warning) },
                     )
-                } ?: CenteredMessage(stringResource(R.string.script_readme_empty), glyph = Glyph.Document)
+                } ?: CenteredMessage(stringResource(R.string.script_readme_empty), icon = PhosphorIcons.Regular.FileText)
             }
         }
     }
@@ -265,7 +277,7 @@ internal fun ScriptLogDialog(model: ScriptsModel, script: ScriptItem?, onDismiss
             val current = lines
             when {
                 current == null -> CenteredMessage(stringResource(R.string.script_readme_loading), loading = true)
-                current.isEmpty() -> CenteredMessage(stringResource(R.string.script_logs_empty), glyph = Glyph.Terminal)
+                current.isEmpty() -> CenteredMessage(stringResource(R.string.script_logs_empty), icon = PhosphorIcons.Regular.Terminal)
                 else -> LogViewer(current)
             }
         }
@@ -397,7 +409,7 @@ internal fun ScriptSettingsDialog(model: ScriptsModel, script: ScriptItem?, onDi
             item(key = "config_section") { SectionTitle(stringResource(R.string.script_settings_config_section)) }
             item(key = "config") {
                 SettingsRow(
-                    glyph = Glyph.Sliders,
+                    icon = PhosphorIcons.Regular.SlidersHorizontal,
                     title = stringResource(R.string.script_settings_config_entry),
                     subtitle = if (shown.configFields == 0) stringResource(R.string.script_settings_no_config)
                     else stringResource(R.string.script_settings_config_count, shown.configFields),
@@ -415,7 +427,7 @@ internal fun ScriptSettingsDialog(model: ScriptsModel, script: ScriptItem?, onDi
                     } else permissionLabel(name)
                 }
                 SettingsRow(
-                    glyph = Glyph.Info,
+                    icon = PhosphorIcons.Regular.Info,
                     title = stringResource(R.string.script_settings_declared),
                     subtitle = declared.takeIf { it.isNotEmpty() }?.joinToString(separator) ?: stringResource(R.string.script_settings_no_extra),
                 )
@@ -423,7 +435,7 @@ internal fun ScriptSettingsDialog(model: ScriptsModel, script: ScriptItem?, onDi
             if (shown.dangerous.isNotEmpty()) {
                 item(key = "dangerous") {
                     SettingsRow(
-                        glyph = Glyph.Shield,
+                        icon = PhosphorIcons.Regular.ShieldCheck,
                         title = stringResource(R.string.script_settings_dangerous),
                         subtitle = stringResource(
                             if (shown.granted) R.string.script_settings_dangerous_granted else R.string.script_settings_dangerous_pending,
@@ -442,7 +454,7 @@ internal fun ScriptSettingsDialog(model: ScriptsModel, script: ScriptItem?, onDi
             item(key = "manage_section") { SectionTitle(stringResource(R.string.script_settings_management_section)) }
             item(key = "delete") {
                 SettingsRow(
-                    glyph = Glyph.Trash,
+                    icon = PhosphorIcons.Regular.Trash,
                     title = stringResource(R.string.script_settings_delete),
                     subtitle = stringResource(R.string.script_settings_delete_summary),
                     destructive = true,
@@ -509,7 +521,7 @@ private fun SectionTitle(text: String) {
 
 @Composable
 private fun SettingsRow(
-    glyph: Glyph,
+    icon: ImageVector,
     title: String,
     subtitle: String,
     accent: Boolean = false,
@@ -530,7 +542,7 @@ private fun SettingsRow(
             Modifier.size(36.dp).clip(CircleShape).background(highlight.copy(alpha = if (accent || destructive) 0.14f else 0.09f)),
             contentAlignment = Alignment.Center,
         ) {
-            CompositionLocalProvider(LocalContentColor provides highlight) { GlyphIcon(glyph, null, iconSize = 19.dp) }
+            CompositionLocalProvider(LocalContentColor provides highlight) { NukeIcon(icon, null, iconSize = 19.dp) }
         }
         Spacer(Modifier.width(12.dp))
         Column(Modifier.weight(1f)) {
@@ -541,7 +553,7 @@ private fun SettingsRow(
         if (onClick != null) {
             Spacer(Modifier.width(10.dp))
             CompositionLocalProvider(LocalContentColor provides colors.textSecondary.copy(alpha = 0.72f)) {
-                GlyphIcon(Glyph.ChevronRight, null, iconSize = 20.dp)
+                NukeIcon(PhosphorIcons.Regular.CaretRight, null, iconSize = 20.dp)
             }
         }
     }
@@ -552,7 +564,7 @@ private fun PermissionReason(label: String, reason: String?, granted: Boolean) {
     val colors = NukeTheme.colors
     Row(Modifier.fillMaxWidth().padding(start = 52.dp, top = 7.dp, end = 6.dp, bottom = 7.dp), verticalAlignment = Alignment.Top) {
         CompositionLocalProvider(LocalContentColor provides if (granted) colors.accent else colors.textSecondary.copy(alpha = 0.55f)) {
-            GlyphIcon(if (granted) Glyph.CheckCircle else Glyph.Circle, null, Modifier.padding(top = 2.dp), iconSize = 15.dp)
+            NukeIcon(if (granted) PhosphorIcons.Regular.CheckCircle else PhosphorIcons.Regular.Circle, null, Modifier.padding(top = 2.dp), iconSize = 15.dp)
         }
         Spacer(Modifier.width(8.dp))
         Column(Modifier.weight(1f)) {

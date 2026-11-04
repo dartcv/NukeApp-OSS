@@ -23,11 +23,16 @@ import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.regular.Check
+import com.adamglin.phosphoricons.regular.Info
+import com.adamglin.phosphoricons.regular.Link
+import com.adamglin.phosphoricons.regular.X
 import io.github.nuke.oss.R
 import io.github.nuke.oss.app.shared.settings.UiConfig
 import io.github.nuke.oss.assembly.HostScope
 import io.github.nuke.oss.designsystem.CodeText
-import io.github.nuke.oss.designsystem.Glyph
 import io.github.nuke.oss.designsystem.NukeDialog
 import io.github.nuke.oss.designsystem.NukeDialogAccentButton
 import io.github.nuke.oss.designsystem.NukeDialogBodyText
@@ -151,17 +156,17 @@ private fun Home(
 @Composable
 private fun StatusCard(activation: Activation?, onDetail: (String, String) -> Unit) {
     if (activation == null) {
-        NukeStatusCard(stringResource(R.string.manager_status_reading), null, Glyph.Info, NukeTheme.colors.textSecondary)
+        NukeStatusCard(stringResource(R.string.manager_status_reading), null, PhosphorIcons.Regular.Info, NukeTheme.colors.textSecondary)
         return
     }
-    val (title, glyph, color) = when (activation.level) {
-        ActivationLevel.ACTIVE -> Triple(R.string.manager_status_active, Glyph.Check, NukeTheme.colors.success)
-        ActivationLevel.PARTIAL -> Triple(R.string.manager_status_partial, Glyph.Info, NukeTheme.colors.warning)
-        ActivationLevel.INACTIVE -> Triple(R.string.manager_status_inactive, Glyph.Close, NukeTheme.colors.danger)
+    val (title, icon, color) = when (activation.level) {
+        ActivationLevel.ACTIVE -> Triple(R.string.manager_status_active, PhosphorIcons.Regular.Check, NukeTheme.colors.success)
+        ActivationLevel.PARTIAL -> Triple(R.string.manager_status_partial, PhosphorIcons.Regular.Info, NukeTheme.colors.warning)
+        ActivationLevel.INACTIVE -> Triple(R.string.manager_status_inactive, PhosphorIcons.Regular.X, NukeTheme.colors.danger)
     }
     val detailsTitle = stringResource(R.string.manager_details_title)
     val details = details(activation)
-    NukeStatusCard(stringResource(title), summary(activation), glyph, color, onClick = { onDetail(detailsTitle, details) })
+    NukeStatusCard(stringResource(title), summary(activation), icon, color, onClick = { onDetail(detailsTitle, details) })
 }
 
 // The framework line names the API 102 service when one is bound, else the XP82 framework that loaded the module.
@@ -280,7 +285,7 @@ private fun LinksGroup(onOpenSource: () -> Unit) {
     NukeSettingGroup(title = stringResource(R.string.manager_section_links)) {
         NukeSettingRow(
             title = stringResource(R.string.manager_source_code),
-            leadingIcon = { NukeIconBadge(Glyph.Link) },
+            leadingIcon = { NukeIconBadge(PhosphorIcons.Regular.Link) },
             supportingContent = { CodeText(stringResource(R.string.manager_source_url)) },
             onClick = onOpenSource,
             trailingContent = { NukeNavChevron() },

@@ -1,7 +1,26 @@
 package io.github.nuke.oss.ui.hostsettings
 
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.regular.ChatCircle
+import com.adamglin.phosphoricons.regular.Chats
+import com.adamglin.phosphoricons.regular.Clock
+import com.adamglin.phosphoricons.regular.DeviceMobile
+import com.adamglin.phosphoricons.regular.Gauge
+import com.adamglin.phosphoricons.regular.Gift
+import com.adamglin.phosphoricons.regular.HandTap
+import com.adamglin.phosphoricons.regular.Monitor
+import com.adamglin.phosphoricons.regular.PlayCircle
+import com.adamglin.phosphoricons.regular.Prohibit
+import com.adamglin.phosphoricons.regular.Rows
+import com.adamglin.phosphoricons.regular.ShareNetwork
+import com.adamglin.phosphoricons.regular.ShieldCheck
+import com.adamglin.phosphoricons.regular.SlidersHorizontal
+import com.adamglin.phosphoricons.regular.SquaresFour
+import com.adamglin.phosphoricons.regular.Subtitles
+import com.adamglin.phosphoricons.regular.User
 import io.github.nuke.oss.R
-import io.github.nuke.oss.designsystem.Glyph
 
 // The home list groups features into these pages. Only non-empty ones are shown.
 // The home screen shows a category's tile under its section, in declaration order.
@@ -11,24 +30,24 @@ internal enum class CategorySection(val title: Int) {
     APP(R.string.host_section_app),
 }
 
-internal enum class FeatureCategory(val key: String, val title: Int, val glyph: Glyph, val section: CategorySection) {
-    FEED("category:feed", R.string.host_category_feed, Glyph.Feed, CategorySection.VIDEO),
-    PLAYBACK("category:playback", R.string.host_category_playback, Glyph.Play, CategorySection.VIDEO),
-    QUALITY("category:quality", R.string.host_category_quality, Glyph.Gauge, CategorySection.VIDEO),
-    VIDEO("category:video", R.string.host_category_video, Glyph.Monitor, CategorySection.VIDEO),
-    GESTURES("category:gestures", R.string.host_category_gestures, Glyph.Tap, CategorySection.VIDEO),
-    DANMAKU("category:danmaku", R.string.host_category_danmaku, Glyph.Danmaku, CategorySection.VIDEO),
-    ADS("category:ads", R.string.host_category_ads, Glyph.Block, CategorySection.VIDEO),
-    COMMENTS("category:comments", R.string.host_category_comments, Glyph.Comment, CategorySection.SOCIAL),
-    CHAT("category:chat", R.string.host_category_chat, Glyph.Chat, CategorySection.SOCIAL),
-    CHAT_EXTRAS("category:chat-extras", R.string.host_category_chat_extras, Glyph.Gift, CategorySection.SOCIAL),
-    SHARING("category:sharing", R.string.host_category_sharing, Glyph.Share, CategorySection.SOCIAL),
-    PROFILE("category:profile", R.string.host_category_profile, Glyph.Person, CategorySection.SOCIAL),
-    PRIVACY("category:privacy", R.string.host_category_privacy, Glyph.Shield, CategorySection.SOCIAL),
-    LAYOUT("category:layout", R.string.host_category_layout, Glyph.Grid, CategorySection.APP),
-    WELLBEING("category:wellbeing", R.string.host_category_wellbeing, Glyph.Clock, CategorySection.APP),
-    SYSTEM("category:system", R.string.host_category_system, Glyph.Phone, CategorySection.APP),
-    OTHER("category:other", R.string.host_category_other, Glyph.Sliders, CategorySection.APP),
+internal enum class FeatureCategory(val key: String, val title: Int, val icon: ImageVector, val section: CategorySection) {
+    FEED("category:feed", R.string.host_category_feed, PhosphorIcons.Regular.Rows, CategorySection.VIDEO),
+    PLAYBACK("category:playback", R.string.host_category_playback, PhosphorIcons.Regular.PlayCircle, CategorySection.VIDEO),
+    QUALITY("category:quality", R.string.host_category_quality, PhosphorIcons.Regular.Gauge, CategorySection.VIDEO),
+    VIDEO("category:video", R.string.host_category_video, PhosphorIcons.Regular.Monitor, CategorySection.VIDEO),
+    GESTURES("category:gestures", R.string.host_category_gestures, PhosphorIcons.Regular.HandTap, CategorySection.VIDEO),
+    DANMAKU("category:danmaku", R.string.host_category_danmaku, PhosphorIcons.Regular.Subtitles, CategorySection.VIDEO),
+    ADS("category:ads", R.string.host_category_ads, PhosphorIcons.Regular.Prohibit, CategorySection.VIDEO),
+    COMMENTS("category:comments", R.string.host_category_comments, PhosphorIcons.Regular.ChatCircle, CategorySection.SOCIAL),
+    CHAT("category:chat", R.string.host_category_chat, PhosphorIcons.Regular.Chats, CategorySection.SOCIAL),
+    CHAT_EXTRAS("category:chat-extras", R.string.host_category_chat_extras, PhosphorIcons.Regular.Gift, CategorySection.SOCIAL),
+    SHARING("category:sharing", R.string.host_category_sharing, PhosphorIcons.Regular.ShareNetwork, CategorySection.SOCIAL),
+    PROFILE("category:profile", R.string.host_category_profile, PhosphorIcons.Regular.User, CategorySection.SOCIAL),
+    PRIVACY("category:privacy", R.string.host_category_privacy, PhosphorIcons.Regular.ShieldCheck, CategorySection.SOCIAL),
+    LAYOUT("category:layout", R.string.host_category_layout, PhosphorIcons.Regular.SquaresFour, CategorySection.APP),
+    WELLBEING("category:wellbeing", R.string.host_category_wellbeing, PhosphorIcons.Regular.Clock, CategorySection.APP),
+    SYSTEM("category:system", R.string.host_category_system, PhosphorIcons.Regular.DeviceMobile, CategorySection.APP),
+    OTHER("category:other", R.string.host_category_other, PhosphorIcons.Regular.SlidersHorizontal, CategorySection.APP),
 }
 
 internal class FeatureLabel(val title: Int, val description: Int, val category: FeatureCategory)

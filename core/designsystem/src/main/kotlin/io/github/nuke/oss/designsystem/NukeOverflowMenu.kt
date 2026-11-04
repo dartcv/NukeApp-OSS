@@ -31,6 +31,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.regular.DotsThreeVertical
 
 class NukeMenuItem(val title: String, val onClick: () -> Unit)
 
@@ -42,7 +45,7 @@ fun NukeOverflowMenu(items: List<NukeMenuItem>, description: String, modifier: M
     val expanded = remember { MutableTransitionState(false) }
     var opensAbove by remember { mutableStateOf(false) }
     Box(modifier) {
-        NukeBarButton(onClick = { expanded.targetState = true }) { GlyphIcon(Glyph.More, description) }
+        NukeBarButton(onClick = { expanded.targetState = true }) { NukeIcon(PhosphorIcons.Regular.DotsThreeVertical, description) }
         if (expanded.targetState || expanded.currentState) {
             val position = remember(density) {
                 NukeSelectPositionProvider(

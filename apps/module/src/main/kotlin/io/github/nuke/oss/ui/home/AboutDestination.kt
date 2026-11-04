@@ -24,9 +24,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.regular.Link
 import io.github.nuke.oss.R
 import io.github.nuke.oss.designsystem.CodeText
-import io.github.nuke.oss.designsystem.Glyph
 import io.github.nuke.oss.designsystem.NukeDivider
 import io.github.nuke.oss.designsystem.NukeIconBadge
 import io.github.nuke.oss.designsystem.NukeSettingGroup
@@ -69,7 +71,7 @@ internal fun AboutDestination(version: String, onBack: (Offset) -> Unit) {
                 NukeSettingRow(
                     title = stringResource(R.string.home_about_telegram),
                     subtitle = stringResource(R.string.home_about_telegram_description),
-                    leadingIcon = { NukeIconBadge(Glyph.Link) },
+                    leadingIcon = { NukeIconBadge(PhosphorIcons.Regular.Link) },
                     onClick = {
                         if (!openInBrowser(context, TELEGRAM_CHANNEL_URL)) Toast.makeText(context, failed, Toast.LENGTH_SHORT).show()
                     },

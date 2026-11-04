@@ -52,10 +52,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.adamglin.PhosphorIcons
+import com.adamglin.phosphoricons.Regular
+import com.adamglin.phosphoricons.regular.Check
 import io.github.nuke.oss.R
 import io.github.nuke.oss.app.shared.settings.normalizeHex
-import io.github.nuke.oss.designsystem.Glyph
-import io.github.nuke.oss.designsystem.GlyphIcon
+import io.github.nuke.oss.designsystem.NukeIcon
 import io.github.nuke.oss.designsystem.NukeDialog
 import io.github.nuke.oss.designsystem.NukeDialogAccentButton
 import io.github.nuke.oss.designsystem.NukeDialogTextButton
@@ -180,7 +182,7 @@ internal fun Swatch(color: Color?, modifier: Modifier = Modifier, selected: Bool
         when {
             selected && color != null -> CompositionLocalProvider(
                 LocalContentColor provides if (color.luminance() > 0.58f) Color.Black.copy(alpha = 0.72f) else Color.White,
-            ) { GlyphIcon(Glyph.Check, null, iconSize = size * 0.52f) }
+            ) { NukeIcon(PhosphorIcons.Regular.Check, null, iconSize = size * 0.52f) }
             color == null -> BasicText("!", style = TextStyle(color = NukeTheme.colors.textSecondary, fontSize = 16.sp,
                 fontWeight = FontWeight.Bold))
         }

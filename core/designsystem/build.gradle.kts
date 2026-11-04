@@ -23,4 +23,6 @@ dependencies {
     // Backdrop blur behind cards and the blurred home background.
     implementation(libs.haze)
     implementation(libs.haze.blur)
+    // The icons are the Phosphor set; the design system draws none of its own.
+    implementation(libs.phosphor.icon)
 }
