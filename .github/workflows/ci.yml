@@ -19,7 +19,7 @@ jobs:
     name: Commit messages
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Check Conventional Commits in English
@@ -44,7 +44,7 @@ jobs:
     name: Intake scripts
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Test the issue and pull request checks
         run: node --test .github/scripts/intake.test.cjs
 
@@ -54,7 +54,7 @@ jobs:
     timeout-minutes: 60
     if: ${{ !startsWith(github.event.head_commit.message, '[skip ci]') }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-java@v4
         with:
