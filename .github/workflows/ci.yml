@@ -77,7 +77,7 @@ jobs:
           python3 tools/build_rust.py --check
 
       - name: Cache pinned native sources
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             build/native/deps
