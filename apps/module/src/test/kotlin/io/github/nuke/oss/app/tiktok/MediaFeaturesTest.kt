@@ -45,11 +45,14 @@ class MediaFeaturesTest : HookHarness() {
     class GuideLoader { fun load(a: Any?, b: Any?, listener: GuideListener?, c: Any?, d: Any?, e: String?): String = "ran" }
     class AlertCallback { val failures = ArrayList<Pair<String, Boolean>>(); fun fail(reason: String, flag: Boolean) { failures += reason to flag } }
     class AlertShower { fun show(a: Any?, b: Any?, c: Any?, d: Any?, e: Any?, f: Any?, callback: AlertCallback?, g: Any?): String = "ran" }
+    // 41.0.0 dropped the parameter in front of the callback, which moved it from the seventh position to the sixth.
+    class SlimAlertShower { fun show(a: Any?, b: Any?, c: Any?, d: Any?, e: Any?, callback: AlertCallback?, f: Any?): String = "ran" }
     class Requester { var asked = 0; fun requestPermissions(permissions: Array<String>, code: Int) { asked++ } }
 
     private val permission = RecordingNotificationPermission()
     private val guide = method(GuideLoader::class.java, "load", Any::class.java, Any::class.java, GuideListener::class.java, Any::class.java, Any::class.java, String::class.java)
     private val alert = method(AlertShower::class.java, "show", Any::class.java, Any::class.java, Any::class.java, Any::class.java, Any::class.java, Any::class.java, AlertCallback::class.java, Any::class.java)
+    private val slimAlert = method(SlimAlertShower::class.java, "show", Any::class.java, Any::class.java, Any::class.java, Any::class.java, Any::class.java, AlertCallback::class.java, Any::class.java)
     private val ask = method(Requester::class.java, "requestPermissions", Array<String>::class.java, Int::class.javaPrimitiveType!!)
 
     private fun notifications() = BlockNotificationPrompts(
@@ -66,6 +69,17 @@ class MediaFeaturesTest : HookHarness() {
         assertEquals(listOf<Any>(FailedType.REVERSE_EXPERIMENT), listener.failed)
         val callback = AlertCallback()
         assertNull(backend.call(alert, AlertShower(), null, null, null, null, null, null, callback, null))
+        scheduler.advance(0)
+        assertEquals(listOf("Nuke notification permission guide disabled" to false), callback.failures)
+    }
+
+    @Test fun `the alert callback is found by its type when the host has one parameter fewer`() {
+        enable(BlockNotificationPrompts(
+            resolver(PermissionQueries.LOAD_GUIDE to listOf(guide), PermissionQueries.GOOGLE_ALERT to listOf(slimAlert)),
+            loader, scheduler, { permission }, logger, Requester::class.java,
+        ))
+        val callback = AlertCallback()
+        assertNull(backend.call(slimAlert, SlimAlertShower(), null, null, null, null, null, callback, null))
         scheduler.advance(0)
         assertEquals(listOf("Nuke notification permission guide disabled" to false), callback.failures)
     }

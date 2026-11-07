@@ -21,13 +21,12 @@ internal object PermissionQueries {
         }
     }
 
-    // The custom alert shown before the system dialog.
-    val GOOGLE_ALERT = method {
+    // The custom alert shown before the system dialog. 40.7.0 declares it in PermissionBootServiceProvider under its
+    // own name with eight parameters; 41.0.0 moved it to an obfuscated class and method with seven. Its log line is
+    // the one stable identity, and the callback parameter is found by type where the feature installs it.
+    val GOOGLE_ALERT = method(version = 2) {
         matcher {
-            declaredClass = "com.bytedance.android.push.permission.boot.PermissionBootServiceProvider"
-            name = "requestNotificationPermissionByGoogleAlert"
             returnType = "void"
-            paramCount = 8
             usingEqStrings("[requestNotificationPermissionByGoogleAlert]customDialogView:")
         }
     }

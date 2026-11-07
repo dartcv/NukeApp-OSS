@@ -43,15 +43,22 @@ internal class BlockNotificationPrompts(
 
     override fun install(scope: FeatureScope) {
         val (guide, alert) = resolver.methods(hostClassLoader, PermissionQueries.LOAD_GUIDE, PermissionQueries.GOOGLE_ALERT)
-        check(guide.parameterCount > 2 && alert.parameterCount > 6) { "The notification prompt methods have the wrong shape" }
+        check(guide.parameterCount > 2) { "The notification guide method has the wrong shape" }
         val failureType = FAILED_TYPE.toClass(hostClassLoader)
         val suppressed = failureType.resolve().firstField { name = "REVERSE_EXPERIMENT" }.get()
             ?: error("$FAILED_TYPE has no REVERSE_EXPERIMENT")
-        val failed = alert.parameterTypes[6].resolve().optional(silent = true).method {
-            returnType = Void.TYPE
-            parameters(String::class, Boolean::class)
-        }.singleOrNull()?.self?.apply { isAccessible = true }
-            ?: error("${alert.parameterTypes[6].name} has no single (String, boolean) failure callback")
+        // The host dropped a parameter in front of the callback in 41.0.0, so the callback is the one parameter whose
+        // type has a (String, boolean) failure method rather than a fixed position.
+        val callbacks = alert.parameterTypes.mapIndexedNotNull { index, type ->
+            if (type.isPrimitive || type.name.startsWith("android.") || type.name.startsWith("java.")) return@mapIndexedNotNull null
+            val failure = type.resolve().optional(silent = true).method {
+                returnType = Void.TYPE
+                parameters(String::class, Boolean::class)
+            }.singleOrNull()?.self
+            failure?.let { index to it.apply { isAccessible = true } }
+        }
+        val (callbackIndex, failed) = callbacks.singleOrNull()
+            ?: error("The notification alert has ${callbacks.size} parameters with a (String, boolean) failure callback")
         val request = requestOwner.resolve().firstMethod {
             name = "requestPermissions"
             parameters(Array<String>::class, Int::class)
@@ -66,7 +73,7 @@ internal class BlockNotificationPrompts(
             if (callback != null) scheduler.schedule(0) { callback.callByName("onLoadFailed", suppressed) }
         }))
         scope.hooks.install(alert, HookSpec(id = "GoogleAlert", requiredCapabilities = setOf(HookCapability.EARLY_RETURN), before = { call ->
-            val callback = call.argument(6)
+            val callback = call.argument(callbackIndex)
             call.returnEarly(null)
             logger.log("feature=$id alert_suppressed")
             if (callback != null) scheduler.schedule(0) { failed.invoke(callback, "Nuke notification permission guide disabled", false) }
