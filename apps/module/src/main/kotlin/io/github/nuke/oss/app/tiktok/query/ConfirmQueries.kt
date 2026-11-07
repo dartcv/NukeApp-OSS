@@ -24,14 +24,16 @@ internal object ConfirmQueries {
         matcher { usingEqStrings("无网络，操作失败", "click_like", "offline_mode", "homepage_fresh", "当前无网络，暂不可用") }
     }
 
-    // Tapping a friend's avatar ring opens their daily; the presenter that preloads it names the click handler.
-    val DAILY = DexQuery { bridge ->
+    // Tapping a friend's avatar ring opens their daily; the presenter that preloads it names the click handler. It
+    // takes the Aweme alone, and since 41.0.0 also a flag for the preload route; the presenter's other method that
+    // logs the same animation type takes nothing.
+    val DAILY = DexQuery(version = 2) { bridge ->
         val owners = bridge.findClass { matcher { usingEqStrings("tryPreload isLoading, do nothing") } }
         check(owners.isNotEmpty()) { "found no daily presenter" }
         bridge.uniqueMethod {
             searchInClass(owners)
             matcher {
-                paramCount = 1
+                paramCount(1, 2)
                 usingEqStrings("animation_type")
             }
         }
@@ -50,8 +52,13 @@ internal object ConfirmQueries {
         matcher { usingStrings("entrance_video_title_entity", "extra_challenge_is_hashtag", "challenge_click") }
     }
 
-    val LIVE_COVER = method {
-        matcher { usingStrings("LivePluginEnterGuideHandler_", "isClickWhenPluginInstall") }
+    // The widget's enter-room method. Its pause callback logs the same plugin guide strings but takes no parameters,
+    // so only methods with parameters are candidates.
+    val LIVE_COVER = method(version = 2) {
+        matcher {
+            paramCount(1, 64)
+            usingStrings("LivePluginEnterGuideHandler_", "isClickWhenPluginInstall")
+        }
     }
 
     val SEARCH_PAGE = method {
