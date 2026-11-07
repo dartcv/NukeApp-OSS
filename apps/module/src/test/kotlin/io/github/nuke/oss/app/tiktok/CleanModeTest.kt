@@ -166,6 +166,16 @@ class CleanModeTest : HookHarness() {
         assertEquals(listOf(right.handle, sameStyle.handle, fps.handle), plan.right)
     }
 
+    @Test fun `the comment panel and what holds it keep their opacity`() {
+        val panel = node("CommentNestedLayout", Kind.FRAME, className = "com.ss.android.ugc.aweme.comment.widget.CommentNestedLayout")
+        panel.add(node("MeasureOnceRelativeLayout2", Kind.RELATIVE))
+        val holder = node("MeasureOnceRelativeLayout2", Kind.RELATIVE, children = arrayOf(panel))
+        val right = node("FeedRightScaleView", Kind.LINEAR)
+        val plan = planOpacity(root(holder, right))
+        assertEquals(listOf(right.handle), plan.right)
+        assertTrue(plan.bottom.isEmpty() && plan.top.isEmpty())
+    }
+
     private val opacity = RecordingOpacityScreen()
 
     private fun opacity(bottom: Long = 100, top: Long = 100, right: Long = 100) = ControlOpacity(

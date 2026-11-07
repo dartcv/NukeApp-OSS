@@ -134,7 +134,9 @@ private val CONTAINER_NAMES = setOf(
 internal class OpacityPlan(val bottom: List<Any>, val top: List<Any>, val right: List<Any>)
 
 // The three regions. A View belongs to one: the bottom setting wins over the top one where both name it (the
-// bottom tab bar), and the "watch full screen" entry takes the bottom setting through its parent.
+// bottom tab bar), and the "watch full screen" entry takes the bottom setting through its parent. As in the clean
+// mode, nothing that is, holds or sits inside the comment panel is touched: the regions match generic layout classes
+// by name, and the panel and its input bar are built from the same ones.
 internal fun planOpacity(root: CleanNode): OpacityPlan {
     val bottom = LinkedHashSet<CleanNode>()
     val top = LinkedHashSet<CleanNode>()
@@ -154,7 +156,12 @@ internal fun planOpacity(root: CleanNode): OpacityPlan {
         if (view.kind == CleanNode.Kind.TEXT && view.text == "全屏观看") view.parent?.let { bottom += it }
     }
     top.removeAll(bottom)
-    return OpacityPlan(bottom.map { it.handle }, top.map { it.handle }, right.map { it.handle })
+    val comments = commentViews(root)
+    return OpacityPlan(
+        bottom.filter { it !in comments }.map { it.handle },
+        top.filter { it !in comments }.map { it.handle },
+        right.filter { it !in comments }.map { it.handle },
+    )
 }
 
 // The controls the "hide video controls" setting can take off the screen, by the setting's names.
