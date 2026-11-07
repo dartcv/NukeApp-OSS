@@ -49,7 +49,7 @@ body:
     id: module-version
     attributes:
       label: 模块版本
-      description: 模块应用首页或设置页里能看到版本号，例如 0.1.0-dev；自己构建的请写提交哈希。
+      description: 模块应用首页或设置页里能看到版本号，例如 0.1.1；自己构建的请写提交哈希。
     validations:
       required: true
 

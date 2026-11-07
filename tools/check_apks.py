@@ -414,7 +414,7 @@ def main():
             "minApiVersion": "102", "targetApiVersion": "102", "staticScope": "true", "autoHotReload": "false",
         }, "Unexpected modern module properties"
         assert archive.read("META-INF/xposed/scope.list").decode().split() == HOST_SCOPE, "Unexpected modern scope"
-        manifest, activities = check_launcher(archive, module, "io.github.nuke.oss", 4)
+        manifest, activities = check_launcher(archive, module, "io.github.nuke.oss", 5)
         legacy = {attrs["name"][1]: attrs for tag, attrs in manifest if tag == "meta-data" and "name" in attrs and str(attrs["name"][1]).startswith("xposed")}
         assert legacy.get("xposedmodule", {}).get("value") == (18, 0xffffffff), "XP82 module flag is missing or disabled"
         assert legacy.get("xposedminversion", {}).get("value") == (16, 82), "Incorrect XP82 minimum API"
@@ -427,7 +427,7 @@ def main():
         assert indexes == list(range(1, len(indexes) + 1)) and len(indexes) <= 128, "DEX payload numbering must be continuous and bounded"
         assert sum(archive.getinfo(name).file_size for name in dex_files) <= 64 * 1024 * 1024, "DEX payload exceeds native memory limit"
         props = properties(archive.read("module.prop"))
-        assert props["id"] == "nukeapp-oss" and props["versionCode"] == "4", "Wrong Root module identity"
+        assert props["id"] == "nukeapp-oss" and props["versionCode"] == "5", "Wrong Root module identity"
         verified_native = check_native_libraries(
             archive, MODULE_ABIS,
             ("libnuke_zygisk.so", "libnuke_protocol_core.so", "libdexkit.so", "libandroidx.graphics.path.so",
@@ -444,7 +444,7 @@ def main():
                      "Lio/github/nuke/oss/app/tiktok/protocol/NativeProtocolException;"):
         assert required in module, f"Hook backend or JNI class stripped or renamed: {required}"
     with ZipFile(args.patcher) as archive:
-        patch_manifest, patch_activities = check_launcher(archive, patcher, "io.github.nuke.oss.patcher", 1)
+        patch_manifest, patch_activities = check_launcher(archive, patcher, "io.github.nuke.oss.patcher", 2)
         assert not any(tag == "meta-data" and str(attrs.get("name", (0, ""))[1]).startswith("xposed")
                        for tag, attrs in patch_manifest), "Patcher must not contain Xposed manifest metadata"
         patch_resources = check_patcher_resources(archive)
