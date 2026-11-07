@@ -129,8 +129,9 @@ internal object OptionQueries {
     // The share panel's row of share actions takes its items in a void (List) method. The adapter is the class whose
     // view holder logs "ShareFunctionViewHolder"; when that does not lead to one such method, the list arrives in
     // the one void (List) method of the class that logs the item click interception instead. Current hosts name that
-    // method with an obfuscated identifier, so it is selected by its signature.
-    val SHARE_ACTIONS = DexQuery(version = 2) { bridge ->
+    // method with an obfuscated identifier, so it is selected by its signature. The interception log is matched on its
+    // own: the A/B key string it used to share a method with moved elsewhere in 41.0.0.
+    val SHARE_ACTIONS = DexQuery(version = 3) { bridge ->
         val adapters = bridge.findMethod {
             matcher {
                 usingStrings("ShareFunctionViewHolder")
@@ -148,7 +149,7 @@ internal object OptionQueries {
             }
         } else emptyList()
         receivers.singleOrNull()?.descriptor ?: run {
-            val clicks = bridge.findMethod { matcher { usingEqStrings("im_add_share_panel_no_click_ab", "onInterceptItemClick key=") } }
+            val clicks = bridge.findMethod { matcher { usingEqStrings("onInterceptItemClick key=") } }
                 .mapNotNull { it.declaredClass }.distinctBy { it.name }
             check(clicks.isNotEmpty()) { "found neither share action adapter" }
             bridge.uniqueMethod {
