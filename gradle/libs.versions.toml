@@ -19,7 +19,7 @@ haze = "2.0.1"
 phosphorIcon = "1.0.0"
 kavaref = "1.1.1"
 quickjsKt = "1.0.15"
-markdownRenderer = "0.45.0"
+markdownRenderer = "0.46.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
