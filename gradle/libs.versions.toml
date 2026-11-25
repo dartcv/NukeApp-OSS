@@ -18,7 +18,7 @@ dexmaker = "2.28.6"
 haze = "2.0.1"
 phosphorIcon = "1.0.0"
 kavaref = "1.1.1"
-quickjsKt = "1.0.15"
+quickjsKt = "1.0.18"
 markdownRenderer = "0.46.0"
 
 [plugins]
